@@ -11,22 +11,21 @@
 sem_t* mySem = NULL;
 int tickets = 1000;
 void*sold(){
-    int i = 1000;
+    int i = 100;
     while(i--){
         // sem_wait(mySem);
         printf("Current tickes number is %d.\n",tickets);
         int temp = tickets;
         // sched_yield();
         temp = temp - 1;
-        sched_yield();
-        sched_yield();
+        // sched_yield();
         tickets = temp;
         // sem_post(mySem);
     }
 }
 
 void*returnT(){
-    int i = 1000;
+    int i = 150;
     while(i--){
         // sem_wait(mySem);
         printf("Current tickes number is %d.\n",tickets);
