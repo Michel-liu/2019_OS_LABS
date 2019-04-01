@@ -49,13 +49,13 @@ int main(){
                     // printf("The root father %d create the P2 %d\n",pid_root,pid_1);
                 } else
                 {
-                    printf("The child1 %d create the P3 %d\n",getpid(),pid_1);
+                    // printf("The child1 %d create the P3 %d\n",getpid(),pid_1);
                     pid_1 = fork();
                     if(pid_1 == 0){
                         // P4
                         sem_wait(mySem_2);
                         sem_wait(mySem_3);
-                        printf("Hello, I'm P4, I finish my task.\n");
+                        printf("I am the process P4\n");
                         sem_post(mySem_4);
                     } else
                     {
@@ -78,9 +78,10 @@ int main(){
                 } else
                 {
                     // P2
+                    sleep(1);
                     sem_wait(mySem_1);
                     sem_wait(mySem_23);
-                    printf("Hello, I'm P2, I finish my task.\n");
+                    printf("I am the process P2\n");
                     sem_post(mySem_23);
                     sem_post(mySem_2);
                 }
