@@ -7,20 +7,16 @@
 #include <sys/stat.h>
 #include <semaphore.h>
 
-sem_t* mySem_1 = NULL;
 sem_t* mySem_2 = NULL;
 sem_t* mySem_3 = NULL;
-sem_t* mySem_4 = NULL;
 sem_t* mySem_23 = NULL;
 
 int main(){
     pid_t pid_1,pid_root;
 
-    mySem_1 = sem_open("P1", O_CREAT, 0666, 0);
     mySem_2 = sem_open("P2", O_CREAT, 0666, 0);
     mySem_3 = sem_open("P3", O_CREAT, 0666, 0);
-    mySem_4 = sem_open("P4", O_CREAT, 0666, 1);
-    mySem_23 = sem_open("P23", O_CREAT, 0666, 1);
+    mySem_23 = sem_open("P23", O_CREAT, 0666, 0);
 
 
     pid_root = getpid();
@@ -56,21 +52,17 @@ int main(){
                         sem_wait(mySem_2);
                         sem_wait(mySem_3);
                         printf("I am the process P4\n");
-                        sem_post(mySem_4);
                     } else
                     {
                         // P1
-                        sem_wait(mySem_4);
                         printf("I am the process P1\n");
-                        sem_post(mySem_1);
-                        sem_post(mySem_1);
+                        sem_post(mySem_23);
                     }                
                 }
             } else if (pid_1 == 0)
             {
                 if(getppid()!=pid_root){
                     // P3
-                    sem_wait(mySem_1);
                     sem_wait(mySem_23);
                     printf("I am the process P3\n");
                     sem_post(mySem_23);
@@ -78,8 +70,7 @@ int main(){
                 } else
                 {
                     // P2
-                    sleep(1);
-                    sem_wait(mySem_1);
+                    // sleep(1);
                     sem_wait(mySem_23);
                     printf("I am the process P2\n");
                     sem_post(mySem_23);
@@ -98,15 +89,11 @@ int main(){
         sleep(1);
     }
 
-    sem_close(mySem_1);
     sem_close(mySem_2);
     sem_close(mySem_3);
-    sem_close(mySem_4);
     sem_close(mySem_23);
-    sem_unlink("P1");
     sem_unlink("P2");
     sem_unlink("P3");
-    sem_unlink("P4");
     sem_unlink("P23");
     return 0;
 }
