@@ -21,15 +21,16 @@ void*read_char(){
         char *t = &buf[i++%10];
         scanf("%c",t);
         sem_post(print_mySem);
-        if(*t == '\n') break;
+        // if(*t == '\n') break;
     }
 }
 
 void*print_char(){
     while(1){
+        sleep(1);
         sem_wait(print_mySem);
         char *t = &buf[j++%10];
-        if(*t == '\n') break;
+        // if(*t == '\n') break;
         printf("%d:%c\n",j,*t);
         sem_post(read_mySem);
     }
